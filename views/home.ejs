@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="/img/psn-logo.jpeg" type="image/x-icon" />
+    <title>Handover · Handover H47</title>
+    <link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+    <div class="header-container">
+        <h1>Handover H47</h1>
+        <div class="note">
+            <b>Note:</b> <br>
+            <i>UT Online > 70% Normal dan UT Offline <30% = Normal </i><br>
+            <i>Total High Beam SER > 15% = Massive</i>
+        </div>
+    </div>
+    <div class="header">
+        <span>Shift:</span>
+        <select id="shiftSelect">
+            <option value="shift1">Shift 1</option>
+            <option value="shift2">Shift 2</option>
+            <option value="shift3">Shift 3</option>
+        </select>
+        <div class="date-now" id="dateNow"></div>
+    </div>
+
+    <div class="tables-grid">
+        <% if ((tableData['ip_transit'] && tableData['ip_transit'].length > 0) ) { %>   
+    <div class="table-container full-width">
+                <h2>IP Transit</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Cikarang - Moratel </th>
+                            <th colspan="2">Ambon - Telkom</th>
+                            <th colspan="2">Timika - Telkom</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <th>Incoming</th>
+                        <th>Outgoing</th>
+                        <th>Incoming</th>
+                        <th>Outgoing</th>
+                        <th>Incoming</th>
+                        <th>Outgoing</th>
+
+                        <% tableData['ip_transit'].forEach(data => { %>
+                            <tr>
+                                <!-- cikarang -->
+                                <td> 
+                                    <% 
+                                        const cikarangIncomingValue = parseFloat(data.cikarang_incoming);
+                                        let displayCikarangIncoming;
+                                
+                                        if (cikarangIncomingValue / 1_000_000_000 >= 1_000) {
+                                            displayCikarangIncoming = (cikarangIncomingValue / 1_000_000_000).toFixed(2) + ' Gbps';
+                                        } else if (cikarangIncomingValue / 1_000_000 < 1_000) {
+                                            displayCikarangIncoming = (cikarangIncomingValue / 1_000_000).toFixed(2) + ' Mbps';
+                                        } else {
+                                            displayCikarangIncoming = cikarangIncomingValue + ' bps';
+                                        }
+                                    %>
+                                    <%= displayCikarangIncoming %>
+                                </td>
+                                <td>
+                                    <% 
+                                        const cikarangOutgoingValue = parseFloat(data.cikarang_outgoing);
+                                        let displayCikarangOutgoing;
+                                
+                                        if (cikarangOutgoingValue / 1_000_000_000 >= 1_000) {
+                                            displayCikarangOutgoing = (cikarangOutgoingValue / 1_000_000_000).toFixed(2) + ' Gbps';
+                                        } else if (cikarangOutgoingValue / 1_000_000 < 1_000) {
+                                            displayCikarangOutgoing = (cikarangOutgoingValue / 1_000_000).toFixed(2) + ' Mbps';
+                                        } else {
+                                            displayCikarangOutgoing = cikarangOutgoingValue + ' bps';
+                                        }
+                                    %>
+                                    <%= displayCikarangOutgoing %>
+                                </td>
+
+                                <!-- Ambon -->
+                                <td>
+                                    <% 
+                                        const ambonIncomingValue = parseFloat(data.ambon_incoming);
+                                        let displayAmbonIncoming;
+                                
+                                        if (ambonIncomingValue / 1_000_000_000 >= 1_000) {
+                                            displayAmbonIncoming = (ambonIncomingValue / 1_000_000_000).toFixed(2) + ' Gbps';
+                                        } else if (ambonIncomingValue / 1_000_000 < 1_000) {
+                                            displayAmbonIncoming = (ambonIncomingValue / 1_000_000).toFixed(2) + ' Mbps';
+                                        } else {
+                                            displayAmbonIncoming = ambonIncomingValue + ' bps';
+                                        }
+                                    %>
+                                    <%= displayAmbonIncoming %>
+                                </td>
+                                <td>
+                                    <% 
+                                        const ambonOutgoingValue = parseFloat(data.ambon_outgoing);
+                                        let displayAmbonOutgoing;
+                                
+                                        if (ambonOutgoingValue / 1_000_000_000 >= 1_000) {
+                                            displayAmbonOutgoing = (ambonOutgoingValue / 1_000_000_000).toFixed(2) + ' Gbps';
+                                        } else if (ambonOutgoingValue / 1_000_000 < 1_000) {
+                                            displayAmbonOutgoing = (ambonOutgoingValue / 1_000_000).toFixed(2) + ' Mbps';
+                                        } else {
+                                            displayAmbonOutgoing = ambonOutgoingValue + ' bps';
+                                        }
+                                    %>
+                                    <%= displayAmbonOutgoing %>
+                                </td>
+
+                                <!-- Timika -->
+                                <td>
+                                    <% 
+                                        const timikaIncomingValue = parseFloat(data.timika_incoming);
+                                        let displayTimikaIncoming;
+                                
+                                        if (timikaIncomingValue / 1_000_000_000 >= 1_000) {
+                                            displayTimikaIncoming = (timikaIncomingValue / 1_000_000_000).toFixed(2) + ' Gbps';
+                                        } else if (timikaIncomingValue / 1_000_000 < 1_000) {
+                                            displayTimikaIncoming = (timikaIncomingValue / 1_000_000).toFixed(2) + ' Mbps';
+                                        } else {
+                                            displayTimikaIncoming = timikaIncomingValue + ' bps';
+                                        }
+                                    %>
+                                    <%= displayTimikaIncoming %>
+                                </td>
+                                <td>
+                                    <% 
+                                        const timikaOutgoingValue = parseFloat(data.timika_outgoing);
+                                        let displayTimikaOutgoing;
+                                
+                                        if (timikaOutgoingValue / 1_000_000_000 >= 1_000) {
+                                            displayTimikaOutgoing = (timikaOutgoingValue / 1_000_000_000).toFixed(2) + ' Gbps';
+                                        } else if (timikaOutgoingValue / 1_000_000 < 1_000) {
+                                            displayTimikaOutgoing = (timikaOutgoingValue / 1_000_000).toFixed(2) + ' Mbps';
+                                        } else {
+                                            displayTimikaOutgoing = timikaOutgoingValue + ' bps';
+                                        }
+                                    %>
+                                    <%= displayTimikaOutgoing %>
+                                </td>        
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+
+        <% if (tableData['all_capacity'].length > 0) { %>
+                <div class="table-container capacity">
+                    <h2>All Capacity</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>OR Capacity</th>
+                                <th>IR Capacity</th>   
+                                <th>Total</th>  
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% tableData['all_capacity'].forEach(data => { %>
+                                <tr>
+                                    <td>
+                                        <% 
+                                        const or_capacityValue = parseFloat(data.or_capacity);
+                                        let display_orCapacity;
+                                
+                                        if (or_capacityValue / 1_000_000_000 >= 1) {
+                                            display_orCapacity = (or_capacityValue / 1_000_000_000).toFixed(2) + ' Gbps';
+                                        } else if (or_capacityValue / 1_000_000 < 1_000) {
+                                            display_orCapacity = (or_capacityValue / 1_000_000).toFixed(2) + ' Mbps';
+                                        } else {
+                                            or_capacityValue = or_capacityValue + ' bps';
+                                        }
+                                    %>
+                                    <%= display_orCapacity %>
+                                    </td>
+                                    <td>
+                                        <% 
+                                        const ir_capacityValue = parseFloat(data.ir_capacity);
+                                        let display_irCapacity;
+                                
+                                        if (ir_capacityValue / 1_000_000_000 >= 1) {
+                                            display_irCapacity = (ir_capacityValue / 1_000_000_000).toFixed(2) + ' Gbps';
+                                        } else if (ir_capacityValue / 1_000_000 < 1) {
+                                            display_irCapacity = (ir_capacityValue / 1_000_000).toFixed(2) + ' Mbps';
+                                        } else {
+                                            display_irCapacity = ir_capacityValue + ' bps';
+                                        }
+                                    %>
+                                    <%= display_irCapacity %>
+                                    </td>
+                                    <td>
+                                        <% 
+                                        const totalCapacityValue = parseFloat(data.total);
+                                        let displaytotalCapacity;
+                                
+                                        if (totalCapacityValue / 1_000_000_000 >= 1) {
+                                            displaytotalCapacity = (totalCapacityValue / 1_000_000_000).toFixed(2) + ' Gbps';
+                                        } else if (totalCapacityValue / 1_000_000 < 1_000) {
+                                            displaytotalCapacity = (totalCapacityValue / 1_000_000).toFixed(2) + ' Mbps';
+                                        } else {
+                                            displaytotalCapacity = totalCapacityValue + ' bps';
+                                        }
+                                    %>
+                                    <%= displaytotalCapacity %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <p>No capacity data available.</p>
+            <% } %>
+         
+
+        <div class="gwCikarang">
+            <table>
+                <thead>
+                    <h2>Gateway Ckarang</h2> 
+                    <tr>
+                        <th>Served Beam</th>
+                        <th>Detail Beam</th>
+                    </tr>
+                    <tr>
+                        <td>9 Beam</td>
+                        <td>89, 94, 92, 80, 97, 86, 90, 96, 85</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="gwBanjarmasin">
+            <table>
+                <thead>
+                    <h2>Gateway Banjarmasin</h2> 
+                    <tr>
+                        <th>Served Beam</th>
+                        <th>Detail Beam</th>
+                    </tr>
+                    <tr>
+                        <td>4 Beam</td>
+                        <td>93, 73, 76, 77</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="gwKupang">
+            <table>
+                <thead>
+                    <h2>Gateway Kupang</h2> 
+                    <tr>
+                        <th>Served Beam</th>
+                        <th>Detail Beam</th>
+                    </tr>
+                    <tr>
+                        <td>21 Beam</td>
+                        <td>100, 104, 81, 83, 101, 16, 53, 103, 95, 74, 80, 84, 88, 19, 22, 25, 14, 15, 17, 200</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="gwTimika">
+            <table>
+                <thead>
+                    <h2>Gateway Timika</h2> 
+                    <tr>
+                        <th>Served Beam</th>
+                        <th>Detail Beam</th>
+                    </tr>
+                    <tr>
+                        <td>10 Beam</td>
+                        <td>7, 9, 11, 12, 13, 21, 3, 4, 5, 20</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="gwAmbon">
+            <table>
+                <thead>
+                    <h2>Gateway Ambon</h2> 
+                    <tr>
+                        <th>Served Beam</th>
+                        <th>Detail Beam</th>
+                    </tr>
+                    <tr>
+                        <td>21 Beam</td>
+                        <td>23, 24, 28, 28, 30, 31, 40, 26, 26, 54, 60, 61, 62, 64, 65, 66, 69, 71, 72, 73, 56</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+        <% Object.keys(tableData).forEach(tableName => { %>
+            <% if (tableName !== 'ip_transit' && tableName !== 'all_capacity') { %> 
+                <div class="table-container 
+                <% if (tableName === 'cikarang_trafik' || tableName === 'cikarang_ut' || tableName === 'cikarang_ser') { %>
+                    cikarang
+                <% } else if (tableName === 'banjarmasin_trafik' || tableName === 'banjarmasin_ut' || tableName === 'banjarmasin_ser') { %>
+                    banjarmasin
+                <% } else if (tableName === 'kupang_trafik' || tableName === 'kupang_ut' || tableName === 'kupang_ser') { %>
+                    kupang
+                <% } else if (tableName === 'ambon_trafik' || tableName === 'ambon_ut' || tableName === 'ambon_ser') { %>
+                    ambon 
+                <% } else if (tableName === 'timika_trafik' || tableName === 'timika_ut' || tableName === 'timika_ser') { %>
+                    timika
+                <% } else { %>
+                    default
+                <% } %>
+                ">
+
+                    <h2><%= database_h47[tableName] || tableName %></h2>
+                    <% if (tableData[tableName].length > 0) { %>
+                        <table>
+                            <thead>
+                                <% if (tableName.includes('_ut')) { %>
+                                    <tr>
+                                        <th>Online UT</th>
+                                        <th>Offline UT</th>
+                                        <th>Total UT</th>
+                                        <th>Online Percentage</th>
+                                        <th>Note</th>
+                                    </tr>
+                                <% } else if (tableName.includes('_ser')) { %>
+                                    <tr>
+                                        <th>Beam Name</th>
+                                        <th>Terminal Active</th>
+                                        <th>State Code</th>
+                                        <th>Percentage</th>
+                                    </tr>
+                                <% } else if (tableName.includes('_trafik')) { %>
+                                    <tr>
+                                        <th colspan="3\">Mon Trafik</th>
+                                        <th>Est Capacity</th>
+                                        <th>Target Capacity</th>
+                                    </tr>
+                                <% } %>
+                            </thead>
+                            <tbody>
+                                <% tableData[tableName].forEach(data => { %>
+                                    <tr>
+                                        <% if (tableName.includes('_ut')) { %>
+                                            <td><%= data.online_ut %></td>
+                                            <td><%= data.offline_ut %></td>
+                                            <td><%= data.total_ut %></td>
+                                            <td><%= data.percentage_ut %>%</td>
+                                            <td>
+                                                <%= data.percentage_ut >= 70 ? "Normal" : "Tidak Normal" %>
+                                            </td>
+                                        <% } else if (tableName.includes('_ser')) { %>
+                                            <td><%= data.beam_name %></td>
+                                            <td><%= data.terminal %></td>
+                                            <td><%= data.state %></td>
+                                            <td><%= parseFloat(data.percentage).toFixed(1) %>%</td>
+                                        <% } else if (tableName.includes('_trafik')) { %>
+                                            <tr>
+                                                <td colspan="2"><b>OR Capacity Conf</b></td>
+                                                <td>
+                                                    <%= data.or_cap_conf >= 1
+                                                        ? (data.or_cap_conf / 1000_000_000).toFixed(2) + ' Gbps' 
+                                                        : parseFloat(data.or_cap_conf).toFixed(2) + ' Mbps' 
+                                                    %>
+                                                </td>
+                                                <td>
+                                                    <!-- <%= data.outEstCap >= 1000
+                                                        ? (data.outEstCap / 1000).toFixed(2) + ' Gbps' 
+                                                        : parseFloat(data.outEstCap).toFixed(2) + ' Mbps' 
+                                                    %> -->
+                                                </td>
+                                                <td>
+                                                    <!-- <%= data.outTarCap >= 1000
+                                                        ? (data.outTarCap / 1000).toFixed(2) + ' Gbps' 
+                                                        : parseFloat(data.outTarCap).toFixed(2) + ' Mbps' 
+                                                    %> -->
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2"><b>IR Capacity Conf</b></td>
+                                                <td>
+                                                    <%= data.ir_cap_conf >= 1
+                                                        ? (data.ir_cap_conf / 1_000_000).toFixed(2) + ' Mbps' 
+                                                        : parseFloat(data.ir_cap_conf).toFixed(2) + ' Mbps' 
+                                                    %>
+                                                </td>
+                                                <td>
+                                                    <!-- <%= data.inEstCap >= 1000
+                                                        ? (data.inEstCap / 1000).toFixed(2) + ' Gbps' 
+                                                        : parseFloat(data.inEstCap).toFixed(2) + ' Mbps' 
+                                                    %> -->
+                                                </td>
+                                                <td>
+                                                    <!-- <%= parseFloat(data.inTarCap).toFixed(2) %> Gbps -->
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        <p>No Beam with SER percentage > 15%</p>
+                    <% } %>
+                </div>
+            <% } %>
+        <% }) %>
+    </div>
+    <script src="/js/date.js"></script>
+</body>
+</html>
