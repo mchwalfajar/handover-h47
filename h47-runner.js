@@ -2,15 +2,15 @@ const { spawn } = require('child_process');
 
 const scripts = [
     './app.js',
-    './pooler/cikarang_ser.js',
-    './pooler/banjarmasin_ser.js',
-    './pooler/kupang_ser.js',
-    './pooler/timika_ser.js',
-    './pooler/ambon_ser.js',
-    './pooler/ip_transit.js',
-    './pooler/gateway_trafik.js',
-    './pooler/integrasi_ut.js',
-    './pooler/all_capacity.js'
+    './pooler/cikarang-ser.js',
+    './pooler/banjarmasin-ser.js',
+    './pooler/kupang-ser.js',
+    './pooler/timika-ser.js',
+    './pooler/ambon-ser.js',
+    './pooler/ip-transit.js',
+    './pooler/gateway-trafik.js',
+    './pooler/integrasi-ut.js',
+    './pooler/all-capacity.js'
 ];
 
 function runScript(script) {
