@@ -371,11 +371,11 @@
                                                         : parseFloat(data.or_cap_conf).toFixed(2) + ' Mbps' 
                                                     %>
                                                 </td>
-                                                <td>
-                                                    <!-- <%= data.outEstCap >= 1000
-                                                        ? (data.outEstCap / 1000).toFixed(2) + ' Gbps' 
-                                                        : parseFloat(data.outEstCap).toFixed(2) + ' Mbps' 
-                                                    %> -->
+                                                <td> 
+                                                    <%= data.or_estCap >= 1
+                                                        ? (data.or_estCap / 1_000_000_000).toFixed(2) + ' Gbps' 
+                                                        : parseFloat(data.or_estCap).toFixed(2) + ' Mbps' 
+                                                    %>
                                                 </td>
                                                 <td>
                                                     <!-- <%= data.outTarCap >= 1000

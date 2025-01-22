@@ -1,53 +1,53 @@
 const axios = require('axios');
 const mysql = require('mysql2');
 
-// const zabbixApi = 
-// const authToken = 
+//const zabbixApi = 
+//const authToken = 
 
 const itemsConfig = {
     cikarang: {
         orConf: ['51504'],
         irConf: ['51866'],
-        or_estCap: [], 
-        or_targetCap: [],
-        ir_estCap: [], 
-        ir_targetCap: [],
+        or_estCapRaw: ['58547'], 
+        or_targetCapRaw: [],
+        ir_estCapRaw: [], 
+        ir_targetCapRaw: [],
         table: 'cikarang_trafik'
     },
     banjarmasin: {
         orConf: ['51503'],
         irConf: ['51865'],
-        or_estCap: [], 
-        or_targetCap: [],
-        ir_estCap: [], 
-        ir_targetCap: [],
+        or_estCapRaw: ['58546'], 
+        or_targetCapRaw: [],
+        ir_estCapRaw: [], 
+        ir_targetCapRaw: [],
         table: 'banjarmasin_trafik'
     },
     kupang: {
         orConf: ['51505'],
         irConf: ['51867'],
-        or_estCap: [], 
-        or_targetCap: [],
-        ir_estCap: [], 
-        ir_targetCap: [],
+        or_estCapRaw: ['58548'], 
+        or_targetCapRaw: [],
+        ir_estCapRaw: [], 
+        ir_targetCapRaw: [],
         table: 'kupang_trafik'
     },
     ambon: {
         orConf: ['51506'],
         irConf: ['51864'],
-        or_estCap: [], 
-        or_targetCap: [],
-        ir_estCap: [], 
-        ir_targetCap: [],
+        or_estCapRaw: ['58545'], 
+        or_targetCapRaw: [],
+        ir_estCapRaw: [], 
+        ir_targetCapRaw: [],
         table: 'ambon_trafik'
     },
     timika: {
         orConf: ['51507'],
         irConf: ['51868'],
-        or_estCap: [], 
-        or_targetCap: [],
-        ir_estCap: [], 
-        ir_targetCap: [],
+        or_estCapRaw: ['58549'], 
+        or_targetCapRaw: [],
+        ir_estCapRaw: [], 
+        ir_targetCapRaw: [],
         table: 'timika_trafik'
     }
 };
@@ -74,7 +74,7 @@ async function fetchZabbixData() {
             method: 'item.get',
             params: {
                 output: ['itemid', 'name', 'lastvalue'],
-                hostids: 10688
+                hostids: [10688, 10698]
             },
             auth: authToken,
             id: 2,
@@ -90,10 +90,11 @@ async function fetchZabbixData() {
         for (const [region, config] of Object.entries(itemsConfig)) {
             const orConfItems = items.filter(item => config.orConf?.includes(item.itemid));
             const irConfItems = items.filter(item => config.irConf?.includes(item.itemid));
-            const or_estCapItems = config.outEstCap ? items.filter(item => config.outEstCap.includes(item.itemid)) : [];
-            const or_targetCapItems = config.outEstCap ? items.filter(item => config.outEstCap.includes(item.itemid)) : [];            const ir_estCapItems = config.outTarCap ? items.filter(item => config.outTarCap.includes(item.itemid)) : [];
-            const ir_targetCapItems = config.inEstCap ? items.filter(item => config.inEstCap.includes(item.itemid)) : [];
-            
+            const or_estCapItems = config.or_estCapRaw ? items.filter(item => config.or_estCapRaw.includes(item.itemid)) : [];
+            const or_targetCapItems = config.or_targetCapRaw ? items.filter(item => config.or_targetCapRaw.includes(item.itemid)) : [];            
+            const ir_estCapItems = config.ir_estCapRaw ? items.filter(item => config.ir_estCapRaw.includes(item.itemid)) : [];
+            const ir_targetCapItems = config.ir_targetCapRaw ? items.filter(item => config.ir_targetCapRaw.includes(item.itemid)) : [];
+
             const or_cap_conf = orConfItems.reduce((sum, item) => sum + (parseInt(item.lastvalue, 10) || 0), 0);
             const ir_cap_conf = irConfItems.reduce((sum, item) => sum + (parseInt(item.lastvalue, 10) || 0), 0);
             const or_estCap = or_estCapItems.reduce((sum, item) => sum + (parseInt(item.lastvalue, 10) || 0), 0);
@@ -103,8 +104,9 @@ async function fetchZabbixData() {
 
             console.log(`${region}OR Capacity Conf:`, or_cap_conf.toFixed(2));
             console.log(`${region}IR Capacity Conf:`, ir_cap_conf.toFixed(2));
+            console.log(`${region}OR Capacity Est:`, or_estCap.toFixed(2));
         
-            if (or_cap_conf > 0 || ir_cap_conf > 0) {
+            if (or_cap_conf > 0 || ir_cap_conf > 0 || or_estCap > 0) {
                 const tableName = config.table;
 
                 const deleteQuery = `DELETE FROM ${tableName} WHERE timestamp < NOW() - INTERVAL 1 HOUR`;
@@ -136,3 +138,4 @@ async function fetchZabbixData() {
 
 setInterval(fetchZabbixData, 60000);
 fetchZabbixData();
+
