@@ -245,8 +245,8 @@
                         <th>Detail Beam</th>
                     </tr>
                     <tr>
-                        <td>4 Beam</td>
-                        <td>93, 73, 76, 77</td>
+                        <td>9 Beam</td>
+                        <td>73, 74, 75, 76, 77, 78, 79, 93, 97</td>
                     </tr>
                 </thead>
             </table>
@@ -371,11 +371,20 @@
                                                         : parseFloat(data.or_cap_conf).toFixed(2) + ' Mbps' 
                                                     %>
                                                 </td>
-                                                <td> 
-                                                    <%= data.or_estCap >= 1
-                                                        ? (data.or_estCap / 1_000_000_000).toFixed(2) + ' Gbps' 
-                                                        : parseFloat(data.or_estCap).toFixed(2) + ' Mbps' 
+                                                <td>
+                                                    <% 
+                                                        const or_estCapValue = parseFloat(data.or_estCap);
+                                                        let display_or_estCap;
+                                                
+                                                        if (or_estCapValue / 1_000_000_000 >= 1) {
+                                                            display_or_estCap = (or_estCapValue / 1_000_000_000).toFixed(2) + ' Gbps';
+                                                        } else if (or_estCapValue / 1_000_000 > 1) {
+                                                            display_or_estCap = (or_estCapValue / 1_000_000).toFixed(2) + ' Mbps';
+                                                        } else {
+                                                            display_or_estCap = or_estCapValue + ' bps';
+                                                        }
                                                     %>
+                                                    <%= display_or_estCap %>
                                                 </td>
                                                 <td>
                                                     <!-- <%= data.outTarCap >= 1000
@@ -388,10 +397,19 @@
                                             <tr>
                                                 <td colspan="2"><b>IR Capacity Conf</b></td>
                                                 <td>
-                                                    <%= data.ir_cap_conf >= 1
-                                                        ? (data.ir_cap_conf / 1_000_000).toFixed(2) + ' Mbps' 
-                                                        : parseFloat(data.ir_cap_conf).toFixed(2) + ' Mbps' 
+                                                    <% 
+                                                        const ir_cap_confValue = parseFloat(data.ir_cap_conf);
+                                                        let display_ir_cap_conf;
+                                                
+                                                        if (ir_cap_confValue / 1_000_000_000 >= 1) {
+                                                            display_ir_cap_conf = (ir_cap_confValue / 1_000_000_000).toFixed(2) + ' Gbps';
+                                                        } else if (or_estCapValue / 1_000_000 > 1) {
+                                                            display_ir_cap_conf = (ir_cap_confValue / 1_000_000).toFixed(2) + ' Mbps';
+                                                        } else {
+                                                            display_ir_cap_conf = ir_cap_confValue + ' bps';
+                                                        }
                                                     %>
+                                                    <%= display_ir_cap_conf %>
                                                 </td>
                                                 <td>
                                                     <!-- <%= data.inEstCap >= 1000
